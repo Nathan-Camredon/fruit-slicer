@@ -1,5 +1,7 @@
 import pygame
 from moviepy import VideoFileClip
+from modules.submenu import submenu
+from modules.leaderboard import leaderboard
 
 BACKGROUND = "./assets/Background_video.mp4"
 EXIT_DOOR_IMG = "./assets/exit_door.png"
@@ -16,9 +18,20 @@ def menu():
     font = pygame.font.SysFont("verdana", 30, bold=True)
 
     # Button rectangles (white buttons)
-    # Bigger buttons, still centered on 1280x720
-    btn_play = pygame.Rect(440, 250, 400, 95)
-    btn_leaderboard = pygame.Rect(440, 370, 400, 95)
+    # Play on the left, Leaderboard on the right
+    btn_play = pygame.Rect(240, 400, 400, 95)
+    btn_leaderboard = pygame.Rect(680, 400, 400, 95)
+
+    # Game logo (top center)
+    logo_surface = pygame.image.load(GAME_LOGO).convert_alpha()
+    # Scale logo to fit nicely at top (max width 900px)
+    max_logo_width = 600
+    if logo_surface.get_width() > max_logo_width:
+        scale_ratio = max_logo_width / logo_surface.get_width()
+        new_size = (int(logo_surface.get_width() * scale_ratio),
+                    int(logo_surface.get_height() * scale_ratio))
+        logo_surface = pygame.transform.smoothscale(logo_surface, new_size)
+    logo_rect = logo_surface.get_rect(midtop=(1280 // 2, 20))
 
     # Exit door (bottom-right) - click to quit
     exit_door_surface = pygame.image.load(EXIT_DOOR_IMG).convert_alpha()
@@ -49,10 +62,10 @@ def menu():
                     # Clicking the door exits the menu
                     running = False
                 elif btn_play.collidepoint(event.pos):
-                    # TODO: Start the game
+                    submenu()
                     print("Play clicked")
                 elif btn_leaderboard.collidepoint(event.pos):
-                    # TODO: Open leaderboard screen
+                    leaderboard()
                     print("Leaderboard clicked")
 
         # Time in seconds of the video 
@@ -84,6 +97,9 @@ def menu():
 
         draw_button(btn_play, "Play")
         draw_button(btn_leaderboard, "Leaderboard")
+
+        # Draw logo at the top center
+        screen.blit(logo_surface, logo_rect)
 
         # Draw exit door on top of the video (bottom-right)
         is_door_hovered = exit_door_rect.collidepoint(mouse_pos)
