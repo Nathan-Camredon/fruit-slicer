@@ -2,10 +2,14 @@
     "en": {
         "play": "Play", 
         "leaderboard": "Leaderboard",
-        "solo": "Solo"},
+        "solo": "Solo",
+        "1vs1": "1versus1",
+        "back": "Back"},
     
     "fr": {
         "play": "Jouer",
         "leaderboard": "Classement",
-        "solo": "Seul"}
+        "solo": "Seul",
+        "1vs1": "1contre1",
+        "back": "Retour"}
 }

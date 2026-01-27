@@ -2,7 +2,7 @@ import pygame
 from moviepy import VideoFileClip
 import json
 import os
-# from modules.submenu import submenu
+from modules.submenu import submenu
 # from modules.leaderboard import leaderboard
 
 BACKGROUND = "./assets/Background_video.mp4"
@@ -93,7 +93,7 @@ def menu():
                 elif btn_play.collidepoint(event.pos):
                     # Try to call submenu() if available, otherwise fallback to print
                     try:
-                        submenu()
+                        submenu(language, labels)
                     except NameError:
                         print("Play clicked")
                 elif btn_leaderboard.collidepoint(event.pos):

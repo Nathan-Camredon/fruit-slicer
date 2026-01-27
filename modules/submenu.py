@@ -4,7 +4,7 @@ from moviepy import VideoFileClip
 BACKGROUND = "./assets/Background_video.mp4"
 
 
-def submenu(labels):
+def submenu(language, labels):
     """
     Simple submenu with two buttons (Solo, 1v1) matching main menu style.
     Uses the existing display surface if available.
