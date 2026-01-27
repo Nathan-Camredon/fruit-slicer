@@ -1,0 +1,11 @@
+{
+    "en": {
+        "play": "Play", 
+        "leaderboard": "Leaderboard",
+        "solo": "Solo"},
+    
+    "fr": {
+        "play": "Jouer",
+        "leaderboard": "Classement",
+        "solo": "Seul"}
+}
