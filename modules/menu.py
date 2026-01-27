@@ -1,5 +1,7 @@
 import pygame
 from moviepy import VideoFileClip
+import json
+import os
 # from modules.submenu import submenu
 # from modules.leaderboard import leaderboard
 
@@ -18,11 +20,17 @@ def menu():
 
     language = "en"
 
-    # Simple translations table
-    labels = {
-        "en": {"play": "Play", "leaderboard": "Leaderboard"},
-        "fr": {"play": "Jouer", "leaderboard": "Classement"},
-    }
+    # Load translations from JSON file
+    json_path = os.path.join(os.path.dirname(__file__), "text_by_language.json")
+    try:
+        with open(json_path, "r", encoding="utf-8") as jf:
+            labels = json.load(jf)
+    except Exception:
+        # Fallback translations if JSON fails to load
+        labels = {
+            "en": {"play": "Play", "leaderboard": "Leaderboard"},
+            "fr": {"play": "Jouer", "leaderboard": "Classement"},
+        }
 
     # Fonts and UI settings
     font = pygame.font.SysFont("verdana", 30, bold=True)
