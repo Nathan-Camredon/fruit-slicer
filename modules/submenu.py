@@ -4,7 +4,7 @@ from moviepy import VideoFileClip
 BACKGROUND = "./assets/Background_video.mp4"
 
 
-def submenu():
+def submenu(labels):
     """
     Simple submenu with two buttons (Solo, 1v1) matching main menu style.
     Uses the existing display surface if available.
@@ -70,9 +70,9 @@ def submenu():
             text_rect = text_surf.get_rect(center=rect.center)
             screen.blit(text_surf, text_rect)
 
-        draw_button(btn_solo, "Solo")
-        draw_button(btn_1v1, "1v1")
-        draw_button(btn_back, "Back")
+        draw_button(btn_solo, labels.get(language, labels["en"])["solo"])
+        draw_button(btn_1v1, labels.get(language, labels["en"])["1vs1"])
+        draw_button(btn_back, labels.get(language, labels["en"])["back"])
 
         pygame.display.flip()
         clock.tick(60)
