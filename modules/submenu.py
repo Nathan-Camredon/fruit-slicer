@@ -87,8 +87,3 @@ class SubMenu:
             clip.close()
 
         return selected
-
-
-def submenu(labels: dict, language: str = "en", screen: pygame.Surface | None = None) -> str | None:
-    """Compatibility helper function."""
-    return SubMenu(labels, language=language, screen=screen).run()
