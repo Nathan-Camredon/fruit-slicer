@@ -3,13 +3,13 @@
         "play": "Play", 
         "leaderboard": "Leaderboard",
         "solo": "Solo",
-        "1vs1": "1versus1",
+        "1vs1": "1 versus 1",
         "back": "Back"},
     
     "fr": {
         "play": "Jouer",
         "leaderboard": "Classement",
         "solo": "Seul",
-        "1vs1": "1contre1",
+        "1vs1": "1 contre 1",
         "back": "Retour"}
 }

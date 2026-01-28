@@ -12,7 +12,7 @@ EXIT_DOOR_IMG = os.path.join(BASE_DIR, "assets/exit_door.png")
 GAME_LOGO = os.path.join(BASE_DIR, "assets/fruit_slicer_logo.png")
 FRANCE_ICON = os.path.join(BASE_DIR, "assets/france_icon.png")
 UK_ICON = os.path.join(BASE_DIR, "assets/united-kingdom_icon.png")
-JSON_PATH = os.path.join(BASE_DIR, "text_by_language.json")
+JSON_PATH = os.path.join(BASE_DIR, "data", "text_by_language.json")
 
 class Menu:
     def __init__(self, screen_size=(1280, 720)):
@@ -50,7 +50,11 @@ class Menu:
             with open(JSON_PATH, "r", encoding="utf-8") as jf:
                 return json.load(jf)
         except Exception:
-            return {"en": {"play": "Play", "leaderboard": "Leaderboard"}, "fr": {"play": "Jouer", "leaderboard": "Classement"}}
+            # minimal fallback including submenu keys
+            return {
+                "en": {"play": "Play", "leaderboard": "Leaderboard", "solo": "Solo", "1vs1": "1v1", "back": "Back"},
+                "fr": {"play": "Jouer", "leaderboard": "Classement", "solo": "Seul", "1vs1": "1contre1", "back": "Retour"},
+            }
 
     def _get_text(self, key):
         return self.labels.get(self.language, self.labels["en"]).get(key, key)
