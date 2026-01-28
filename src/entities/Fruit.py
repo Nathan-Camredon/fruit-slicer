@@ -24,6 +24,7 @@ class Fruit:
             "vy": random.uniform(-950, -1150)
         }
         self.y = self.params["start_y"]
+        self.x = self.params["start_x"] # Init x to avoid crash if drawn before update
         
 
     def update(self):
