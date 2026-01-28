@@ -1,4 +1,3 @@
-import pygame
 from modules.menu import Menu
 
 def main():
