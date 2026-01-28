@@ -1,8 +1,8 @@
 import pygame
-from modules.menu import menu
+from modules.menu import Menu
 
 def main():
-   menu()
+    Menu().run()
 
 if __name__ == "__main__":
     main()

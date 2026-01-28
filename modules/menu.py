@@ -2,7 +2,7 @@ import pygame
 from moviepy import VideoFileClip
 import json
 import os
-from modules.submenu import submenu
+from modules.submenu import SubMenu
 # from modules.leaderboard import leaderboard
 
 BACKGROUND = "./assets/Background_video.mp4"
@@ -147,10 +147,8 @@ class Menu:
             if self.exit_door_rect.collidepoint(pos):
                 self.running = False
             elif self.btn_play.collidepoint(pos):
-                try:
-                    submenu()
-                except NameError:
-                    print("Play clicked")
+                sm = SubMenu(self.labels, language=self.language, screen=self.screen)
+                mode = sm.run()
             elif self.btn_leaderboard.collidepoint(pos):
                 try:
                     leaderboard()
@@ -177,9 +175,4 @@ class Menu:
         inflate_amount = 16 if hovered else 10
         color = hover_border_color if hovered else border_color
         pygame.draw.ellipse(self.screen, color, rect.inflate(inflate_amount, inflate_amount), width=3)
-
-
-def menu():
-    m = Menu()
-    m.run()
 
