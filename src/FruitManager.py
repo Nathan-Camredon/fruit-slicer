@@ -73,4 +73,12 @@ class FruitManager:
 
     def press_key(self, key):
         """Handles key presses."""
-        self.fruits = [fruit for fruit in self.fruits if fruit.letter != key]
+        hit_fruits = [f for f in self.fruits if f.letter == key]
+        for f in hit_fruits:
+            if f.type == "Bomb":
+                self.lives = 0 #Game over
+            elif f.type ==  "Ice":
+                pass
+            if hit_fruits:
+                #score ?
+                self.fruits = [fruit for fruit in self.fruits if fruit.letter != key]
