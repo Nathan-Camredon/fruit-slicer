@@ -1,6 +1,6 @@
 import pygame
 
-from modules.game import game
+from src.game import Game
 
 def main():
     pygame.init()
@@ -8,7 +8,8 @@ def main():
     pygame.display.set_caption("Fruit Slicer")
     clock = pygame.time.Clock()
     
-    game(screen, clock)
+    game_instance = Game(screen, clock)
+    game_instance.run()
     pygame.quit()
 
 if __name__ == "__main__":
