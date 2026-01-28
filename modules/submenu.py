@@ -1,5 +1,6 @@
 import pygame
 from moviepy import VideoFileClip
+from modules.game_display import GameDisplay
 
 BACKGROUND = "./assets/Background_video.mp4"
 
@@ -85,5 +86,13 @@ class SubMenu:
                 self.clock.tick(60)
         finally:
             clip.close()
+
+        # If a game mode was selected, launch the game display
+        if selected in ("solo", "1v1"):
+            try:
+                GameDisplay().run()
+            except Exception:
+                # If launching the game fails, just return the selection
+                pass
 
         return selected
