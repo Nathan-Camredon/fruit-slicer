@@ -1,19 +1,15 @@
 import pygame
 
+from src.game import Game
+
 def main():
     pygame.init()
     screen = pygame.display.set_mode((1280, 720))
     pygame.display.set_caption("Fruit Slicer")
     clock = pygame.time.Clock()
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-
-        screen.fill((0, 0, 0)) 
-        pygame.display.flip()
-        clock.tick(60)
+    
+    game_instance = Game(screen, clock)
+    game_instance.run()
     pygame.quit()
 
 if __name__ == "__main__":
