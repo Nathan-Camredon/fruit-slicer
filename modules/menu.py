@@ -1,9 +1,9 @@
 import pygame
 import os
 import json
-from moviepy import VideoFileClip
 from modules.ui.button import Button, ImageButton
 from modules.submenu import SubMenu
+from modules.ui.background import BackgroundVideo
 
 # Paths configuration
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -40,9 +40,8 @@ class Menu:
         self.logo_surf, self.logo_rect = self._load_logo()
         self.door_surf, self.door_hover, self.door_rect = self._load_exit_door()
 
-        # 4. Background Video
-        self.clip = VideoFileClip(BACKGROUND).resized(screen_size)
-        self.duration = self.clip.duration
+        # 4. Background Video (persistent)
+        self.background = BackgroundVideo(BACKGROUND, screen_size)
         self.running = False
 
     def _load_translations(self):
@@ -81,9 +80,8 @@ class Menu:
             for event in pygame.event.get():
                 self._handle_events(event)
 
-            # Video Background logic
-            t = ((pygame.time.get_ticks() - start_ticks) / 1000.0) % self.duration
-            frame = pygame.surfarray.make_surface(self.clip.get_frame(t).swapaxes(0, 1))
+            # Video Background logic (use persistent BackgroundVideo)
+            frame = self.background.get_frame_surface()
             self.screen.blit(frame, (0, 0))
 
             # Draw Everything
@@ -99,7 +97,7 @@ class Menu:
             pygame.display.flip()
             self.clock.tick(60)
         
-        self.clip.close()
+        self.background.close()
         pygame.quit()
 
     def _handle_events(self, event):
@@ -107,7 +105,8 @@ class Menu:
             self.running = False
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if self.btn_play.is_clicked(event.pos):
-                SubMenu(self.labels, self.language, self.screen).run()
+                # Pass the shared background so the video doesn't reset
+                SubMenu(self.labels, self.language, self.screen, background_video=self.background).run()
             elif self.flag_fr.is_clicked(event.pos):
                 self.language = "fr"
                 self._update_language()

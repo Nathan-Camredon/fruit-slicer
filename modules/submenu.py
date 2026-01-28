@@ -1,6 +1,6 @@
 import pygame
-from moviepy import VideoFileClip
 from modules.game_display import GameDisplay
+from modules.ui.background import BackgroundVideo
 
 BACKGROUND = "./assets/Background_video.mp4"
 
@@ -14,11 +14,14 @@ class SubMenu:
     """
 
     def __init__(self, labels: dict, language: str = "en", screen: pygame.Surface | None = None,
-                 size: tuple[int, int] = (1280, 720), background: str = BACKGROUND):
+                 size: tuple[int, int] = (1280, 720), background: str = BACKGROUND, background_video: BackgroundVideo | None = None):
         self.labels = labels
         self.language = language
         self.size = size
         self.background = background
+        # If a BackgroundVideo instance is provided, reuse it so the video doesn't restart.
+        self.shared_background: BackgroundVideo | None = background_video
+        self.owns_background = background_video is None
 
         self.screen = screen or pygame.display.get_surface() or pygame.display.set_mode(self.size)
         self.clock = pygame.time.Clock()
@@ -41,13 +44,17 @@ class SubMenu:
 
     def run(self) -> str | None:
         """Main submenu loop. Returns the selected mode or None."""
-        clip = VideoFileClip(self.background).resized(self.size)
-        duration = clip.duration
+        # Use shared BackgroundVideo if provided, otherwise create our own.
+        if self.shared_background is not None:
+            bg = self.shared_background
+            created_here = False
+        else:
+            bg = BackgroundVideo(self.background, self.size)
+            created_here = True
 
         running = True
         start_ticks = pygame.time.get_ticks()
         selected = None
-
         try:
             while running:
                 mouse_pos = pygame.mouse.get_pos()
@@ -67,11 +74,8 @@ class SubMenu:
                             selected = None
                             running = False
 
-                # Video frame
-                elapsed_sec = (pygame.time.get_ticks() - start_ticks) / 1000.0
-                t = elapsed_sec % duration
-                frame = clip.get_frame(t)
-                frame_surface = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
+                # Video frame (from BackgroundVideo)
+                frame_surface = bg.get_frame_surface()
                 self.screen.blit(frame_surface, (0, 0))
 
                 # Labels according to language (fallback to "en")
@@ -85,7 +89,11 @@ class SubMenu:
                 pygame.display.flip()
                 self.clock.tick(60)
         finally:
-            clip.close()
+            if created_here:
+                try:
+                    bg.close()
+                except Exception:
+                    pass
 
         # If a game mode was selected, launch the game display
         if selected in ("solo", "1v1"):
