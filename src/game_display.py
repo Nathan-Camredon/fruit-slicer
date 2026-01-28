@@ -55,23 +55,22 @@ class GameDisplay:
         if not self.load():
             pygame.quit()
             return
+        # Create and run the game using the initialized screen, clock and background
+        try:
+            # import here to avoid circular imports at module import time
+            from src.game import Game
+        except Exception:
+            # fallback to relative import if package import fails
+            from game import Game
 
-        running = True
-        while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    running = False
-
-            # Blit background and update display
-            assert self.screen is not None and self.bg is not None
-            self.screen.blit(self.bg, (0, 0))
-            pygame.display.flip()
-            assert self.clock is not None
-            self.clock.tick(60)
-
+        assert self.screen is not None and self.clock is not None
+        # pass background surface to Game so it can blit it each frame
+        game = Game(self.screen, self.clock)
+        game.background = self.bg
+        result = game.run()
+        # when the game loop finishes, quit pygame
         pygame.quit()
+        return result
 
 
 def main():

@@ -1,6 +1,6 @@
 import pygame
-from modules.game_display import GameDisplay
-from modules.ui.background import BackgroundVideo
+from src.game_display import GameDisplay
+from src.ui.background import BackgroundVideo
 
 BACKGROUND = "./assets/Background_video.mp4"
 
