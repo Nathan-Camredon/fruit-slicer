@@ -32,7 +32,7 @@ class Fruit:
         # X Movement: x0 + vx * t
         self.x = self.params["start_x"] + (self.params["vx"] * self.t)
         
-        # Y Movement: y0 + vy * t + 0.5 * g * t^2
+        # Y Movement: y0 + vy * t + 0.5 * g * t^2  low of galilée 
         self.y = self.params["start_y"] + (self.params["vy"] * self.t) + (0.5 * gravity * (self.t * self.t))
 
     def draw(self, screen):
@@ -84,7 +84,7 @@ class FruitGame:
         #Determine Forbidden Letters
         forbidden = []
         if fruit_type in ["Bomb", "Ice"]:
-            # Bombs/Ice must be unique vs EVERYTHING
+            # Bombs/Ice unique key
             forbidden = [f.letter for f in self.fruits]
         else:
             # Classic fruits only need to avoid Bombs/Ice
@@ -114,7 +114,6 @@ class FruitGame:
             fruit.update()
         
         # Count fruits that fell (missed)
-        # On ne perd des vies que si c'est un Fruit Classique (pas une Bombe ou un Glaçon)
         missed_fruits = [f for f in self.fruits if f.y > 1000 and f.type == "Classic"]
         self.lives -= len(missed_fruits)
         
@@ -133,5 +132,4 @@ class FruitGame:
 
     def press_key(self, key):
         """Handles key presses."""
-        self.fruits = [fruit for fruit in self.fruits 
-                      if fruit.letter != key]
+        self.fruits = [fruit for fruit in self.fruits if fruit.letter != key]
