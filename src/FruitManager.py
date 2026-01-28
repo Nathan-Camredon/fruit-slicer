@@ -10,14 +10,14 @@ class FruitManager:
     def __init__(self):
         self.fruits = []
         self.lives = 3
-
+        self.unfreeze = 0
     def spawn_fruit(self):
         """Adds a new fruit to the game."""
         #Choose Type
         x = random.random()
-        if x < 0.03:
+        if x < 0.06:
             fruit_type = "Bomb"
-        elif x < 0.05:
+        elif x < 0.010:
             fruit_type = "Ice"
         else:
             fruit_type = "Classic"
@@ -51,8 +51,9 @@ class FruitManager:
 
     def update(self):
         """Updates all active fruits."""
-        for fruit in self.fruits:
-            fruit.update()
+        if pygame.time.get_ticks() > self.unfreeze:
+            for fruit in self.fruits:
+                fruit.update()
         
         # Count fruits that fell (missed)
         missed_fruits = [f for f in self.fruits if f.y > 1000 and f.type == "Classic"]
@@ -71,6 +72,14 @@ class FruitManager:
         lives_text = font.render(f"Lives: {self.lives}", True, (255, 255, 255))
         screen.blit(lives_text, (10, 10))
 
-    def press_key(self, key):
+    def press_key(self, key, score = 0):
         """Handles key presses."""
-        self.fruits = [fruit for fruit in self.fruits if fruit.letter != key]
+        hit_fruits = [f for f in self.fruits if f.letter == key]
+        for f in hit_fruits:
+            if f.type == "Bomb":
+                self.lives = 0 #Game over
+            elif f.type ==  "Ice":
+                self.unfreeze = pygame.time.get_ticks() + 1000
+            if hit_fruits:
+                score += 20 #Editable
+                self.fruits = [fruit for fruit in self.fruits if fruit.letter != key]
