@@ -61,7 +61,31 @@ class GameDisplay:
         game = Game(self.screen, self.clock)
         game.background = self.bg
         result = game.run()
-        # when the game loop finishes, quit pygame
-        pygame.quit()
+
+        # If the game ended with a game over, show a brief "You lost" screen
+        # and then return control to the caller (e.g., the menu).
+        if result == "game_over":
+            # Prepare message
+            font = pygame.font.SysFont("verdana", 64, bold=True)
+            text_surf = font.render("You lost", True, (255, 255, 255))
+            text_rect = text_surf.get_rect(center=(self.width // 2, self.height // 2))
+
+            end_time = pygame.time.get_ticks() + 2000  # show for 2 seconds
+            while pygame.time.get_ticks() < end_time:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        return "quit"
+                # draw background if available
+                if self.bg is not None:
+                    self.screen.blit(self.bg, (0, 0))
+                else:
+                    self.screen.fill((0, 0, 0))
+                self.screen.blit(text_surf, text_rect)
+                pygame.display.flip()
+                # keep timing consistent with main loop
+                if self.clock is not None:
+                    self.clock.tick(60)
+
+        # Leave pygame initialized; top-level code handles quitting.
         return result
 
