@@ -2,7 +2,7 @@ import pygame
 import os
 import sys
 from typing import Optional
-
+from src.game import Game
 
 class GameDisplay:
     """
@@ -55,13 +55,6 @@ class GameDisplay:
         if not self.load():
             pygame.quit()
             return
-        # Create and run the game using the initialized screen, clock and background
-        try:
-            # import here to avoid circular imports at module import time
-            from src.game import Game
-        except Exception:
-            # fallback to relative import if package import fails
-            from game import Game
 
         assert self.screen is not None and self.clock is not None
         # pass background surface to Game so it can blit it each frame
@@ -71,12 +64,4 @@ class GameDisplay:
         # when the game loop finishes, quit pygame
         pygame.quit()
         return result
-
-
-def main():
-    GameDisplay().run()
-
-
-if __name__ == "__main__":
-    main()
 
