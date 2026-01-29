@@ -79,9 +79,12 @@ class FruitManager:
         for f in hit_fruits:
             if f.type == "Bomb":
                 self.lives -= 3 #Game over
+                self.fruits = [fruit for fruit in self.fruits if fruit.letter != key]
+                return -50
             elif f.type ==  "Ice":
                 self.unfreeze = pygame.time.get_ticks() + 1500
-            if hit_fruits:
+                self.fruits = [fruit for fruit in self.fruits if fruit.letter != key]
+            elif hit_fruits:
                 if len(hit_fruits) >= 2:
                     self.score += 100
                     self.fruits = [fruit for fruit in self.fruits if fruit.letter != key]
