@@ -10,6 +10,8 @@ class Game:
         self.counter = 0
         self.screen = screen
         self.clock = clock
+        # optional background surface (blitted every frame before drawing manager)
+        self.background = None
         self.manager = FruitManager()
         self.NEXT_SPAWN_EVENT = pygame.USEREVENT + 1
         pygame.time.set_timer(self.NEXT_SPAWN_EVENT, 3000)
@@ -44,6 +46,12 @@ class Game:
         if self.tick % 500 == 0 and self.counter < 5:
             self.counter += 1
     def draw(self):
-        self.screen.fill((0, 0, 0)) 
+        # draw background if provided, otherwise clear screen
+        if self.background is not None:
+            self.screen.blit(self.background, (0, 0))
+        else:
+            # fill with black by default
+            self.screen.fill((0, 0, 0))
+
         self.manager.draw(self.screen)
 

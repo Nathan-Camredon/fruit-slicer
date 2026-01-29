@@ -1,16 +1,7 @@
-import pygame
-
-from src.VersusGame import VersusGame
+from src.menu import Menu
 
 def main():
-    pygame.init()
-    screen = pygame.display.set_mode((1280, 720))
-    pygame.display.set_caption("Fruit Slicer")
-    clock = pygame.time.Clock()
-    
-    game_instance = VersusGame(screen, clock)
-    game_instance.run()
-    pygame.quit()
+    Menu().run()
 
 if __name__ == "__main__":
     main()
