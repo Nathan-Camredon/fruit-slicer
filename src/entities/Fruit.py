@@ -3,11 +3,23 @@ import pygame
 
 
 class Fruit:
-    def __init__(self, letter, type="classic"):
+    def __init__(self, letter, type="Classic"):
         """Initializes a fruit with a random trajectory."""
         self.letter = letter
         self.type = type
         self.t = 0.0
+        if self.type == "Classic":
+            images = ["apple.png", "banana.png", "orange.png", "watermelon.png"]
+        if self.type == "Bomb":
+            images = ["bomb.png"]
+        if self.type == "Ice":
+            images = ["ice.png"]
+            
+        choice = random.choice(images)
+        link = f"assets/elements/{choice}"
+
+        fruit = pygame.image.load(link).convert_alpha()
+        self.fruit = pygame.transform.scale(fruit, (100, 100))
         # Random X position
         start_x = random.randint(100, 1180)
         
@@ -38,7 +50,8 @@ class Fruit:
 
     def draw(self, screen):
         """Draws the fruit on the screen."""
-        
+        rect_fruit = self.fruit.get_rect(center=(int(self.x), int(self.y)))
+        screen.blit(self.fruit, rect_fruit)
         police = pygame.font.SysFont(None, 50)
         lettre_image = police.render(self.letter , True, (255, 255, 255))
         
