@@ -11,13 +11,14 @@ class FruitManager:
         self.fruits = []
         self.lives = 3
         self.unfreeze = 0
+        self.score = 0
     def spawn_fruit(self):
         """Adds a new fruit to the game."""
         #Choose Type
         x = random.random()
         if x < 0.06:
             fruit_type = "Bomb"
-        elif x < 0.010:
+        elif x < 0.1:
             fruit_type = "Ice"
         else:
             fruit_type = "Classic"
@@ -77,9 +78,10 @@ class FruitManager:
         hit_fruits = [f for f in self.fruits if f.letter == key]
         for f in hit_fruits:
             if f.type == "Bomb":
-                self.lives = 0 #Game over
+                self.lives -= 3 #Game over
             elif f.type ==  "Ice":
-                self.unfreeze = pygame.time.get_ticks() + 1000
+                self.unfreeze = pygame.time.get_ticks() + 1500
             if hit_fruits:
-                score += 20 #Editable
+                self.score += 20 #Editable
                 self.fruits = [fruit for fruit in self.fruits if fruit.letter != key]
+                return self.score

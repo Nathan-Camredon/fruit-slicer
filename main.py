@@ -1,6 +1,6 @@
 import pygame
 
-from src.game import Game
+from src.VersusGame import VersusGame
 
 def main():
     pygame.init()
@@ -8,7 +8,7 @@ def main():
     pygame.display.set_caption("Fruit Slicer")
     clock = pygame.time.Clock()
     
-    game_instance = Game(screen, clock)
+    game_instance = VersusGame(screen, clock)
     game_instance.run()
     pygame.quit()
 
