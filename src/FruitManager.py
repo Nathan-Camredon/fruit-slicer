@@ -82,6 +82,11 @@ class FruitManager:
             elif f.type ==  "Ice":
                 self.unfreeze = pygame.time.get_ticks() + 1500
             if hit_fruits:
+                if len(hit_fruits) >= 2:
+                    self.score += 100
+                    self.fruits = [fruit for fruit in self.fruits if fruit.letter != key]
+                    return 100
                 self.score += 20 #Editable
                 self.fruits = [fruit for fruit in self.fruits if fruit.letter != key]
-                return self.score
+                return 20
+        return 0

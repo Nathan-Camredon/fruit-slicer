@@ -14,6 +14,7 @@ class VersusGame(Game):
             return "game_over"
 
         for event in pygame.event.get():
+            
             if event.type == pygame.QUIT:
                 return "quit"
         
@@ -22,13 +23,18 @@ class VersusGame(Game):
                     self.manager.spawn_fruit()
             elif event.type == pygame.KEYDOWN:
                 key = event.unicode.upper()
+                
                 if key in "AZER":
                     # Player 1 (Left)
-                    points = self.manager.press_key(key, self.score_p1) 
+                    points = self.manager.press_key(key, self.score_p1)
+                    if points:
+                        self.score_p1 += points
+                        points = 0
                 elif key in "UIOP":
                     # Player 2 (Right)
                     points = self.manager.press_key(key, self.score_p2)
-
+                    self.score_p2 += points
+                    points = 0
     def draw(self):
         self.screen.fill((0, 0, 0)) 
         
