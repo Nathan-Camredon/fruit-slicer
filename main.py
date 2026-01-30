@@ -1,4 +1,5 @@
 import pygame
+from leaderboard import Leaderboard
 
 def main():
     pygame.init()
