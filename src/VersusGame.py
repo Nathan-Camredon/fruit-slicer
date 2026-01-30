@@ -36,8 +36,12 @@ class VersusGame(Game):
                     self.score_p2 += points
                     points = 0
     def draw(self):
-        self.screen.fill((0, 0, 0)) 
-        
+        # draw background if provided, otherwise clear screen (reuse Game behavior)
+        if self.background is not None:
+            self.screen.blit(self.background, (0, 0))
+        else:
+            self.screen.fill((0, 0, 0))
+
         # Draw fruits (but NOT the default UI with lives)
         for fruit in self.manager.fruits:
             fruit.draw(self.screen)
