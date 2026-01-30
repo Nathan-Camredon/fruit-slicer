@@ -3,6 +3,7 @@ import os
 import json
 from src.ui.Button import Button, ImageButton
 from src.SubMenu import SubMenu
+from src.Leaderboard import Leaderboard
 from src.ui.Background import BackgroundVideo
 
 # Paths configuration
@@ -107,6 +108,9 @@ class Menu:
             if self.btn_play.is_clicked(event.pos):
                 # Pass the shared background so the video doesn't reset
                 SubMenu(self.labels, self.language, self.screen, background_video=self.background).run()
+            elif self.btn_leaderboard.is_clicked(event.pos):
+                # Open leaderboard and pass the shared background so it doesn't restart
+                Leaderboard(self.screen, self.clock, background=self.background).run()
             elif self.flag_fr.is_clicked(event.pos):
                 self.language = "fr"
                 self._update_language()
