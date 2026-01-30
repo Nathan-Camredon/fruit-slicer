@@ -48,17 +48,31 @@ class GameDisplay:
         self.bg = pygame.transform.smoothscale(self.bg, (self.width, self.height))
         return True
 
-    def run(self):
+    def run(self, mode: str = "solo"):
         """
         Run the main loop: display the background until the user quits or presses ESC.
         """
         if not self.load():
             pygame.quit()
             return
+        # Create and run the game using the initialized screen, clock and background
+        try:
+            # import here to avoid circular imports at module import time
+            from src.Game import Game
+            from src.VersusGame import VersusGame
+        except Exception:
+            # fallback to relative import if package import fails
+            from Game import Game
+            from VersusGame import VersusGame
 
         assert self.screen is not None and self.clock is not None
+        
         # pass background surface to Game so it can blit it each frame
-        game = Game(self.screen, self.clock)
+        if mode == "1v1":
+            game = VersusGame(self.screen, self.clock)
+        else:
+            game = Game(self.screen, self.clock)
+            
         game.background = self.bg
         result = game.run()
 
@@ -67,10 +81,25 @@ class GameDisplay:
         if result == "game_over":
             # Prepare message
             font = pygame.font.SysFont("verdana", 64, bold=True)
-            text_surf = font.render("You lost", True, (255, 255, 255))
+            
+            message = "You lost"
+            color = (255, 255, 255)
+            
+            # Check for 1v1 winner
+            if mode == "1v1" and hasattr(game, "score_p1") and hasattr(game, "score_p2"):
+                if game.score_p1 > game.score_p2:
+                    message = "Player 1 Wins!"
+                    color = (255, 100, 100) 
+                elif game.score_p2 > game.score_p1:
+                    message = "Player 2 Wins!"
+                    color = (100, 255, 100) 
+                else:
+                    message = "Draw!"
+            
+            text_surf = font.render(message, True, color)
             text_rect = text_surf.get_rect(center=(self.width // 2, self.height // 2))
 
-            end_time = pygame.time.get_ticks() + 2000  # show for 2 seconds
+            end_time = pygame.time.get_ticks() + 3000  # show for 3 seconds
             while pygame.time.get_ticks() < end_time:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:

@@ -97,10 +97,6 @@ class SubMenu:
 
         # If a game mode was selected, launch the game display
         if selected in ("solo", "1v1"):
-            try:
-                GameDisplay().run()
-            except Exception:
-                # If launching the game fails, just return the selection
-                pass
+            GameDisplay().run(mode=selected)
 
         return selected
