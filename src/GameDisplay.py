@@ -2,7 +2,7 @@ import pygame
 import os
 import sys
 from typing import Optional
-from src.game import Game
+from src.Game import Game
 
 class GameDisplay:
     """

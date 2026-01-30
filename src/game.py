@@ -1,5 +1,5 @@
 import pygame
-from src.fruit_manager import FruitManager
+from src.FruitManager import FruitManager
 import random
 import time
 import json

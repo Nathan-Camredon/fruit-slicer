@@ -1,6 +1,6 @@
 import pygame
 import random
-from .game import Game
+from .Game import Game
 
 class VersusGame(Game):
     def __init__(self, screen, clock):
