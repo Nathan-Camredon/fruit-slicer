@@ -1,9 +1,9 @@
 import pygame
 import os
 import json
-from src.ui.button import Button, ImageButton
+from src.ui.Button import Button, ImageButton
 from src.submenu import SubMenu
-from src.ui.background import BackgroundVideo
+from src.ui.Background import BackgroundVideo
 
 # Paths configuration
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
