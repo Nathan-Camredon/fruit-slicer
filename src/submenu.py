@@ -1,5 +1,6 @@
 import pygame
 from src.GameDisplay import GameDisplay
+from src.AskUserName import AskUserName
 from src.ui.Background import BackgroundVideo
 
 BACKGROUND = "./assets/Background_video.mp4"
@@ -95,8 +96,13 @@ class SubMenu:
                 except Exception:
                     pass
 
-        # If a game mode was selected, launch the game display
+        # If a game mode was selected, optionally ask for player name (solo) and launch the game display
         if selected in ("solo", "1v1"):
-            GameDisplay().run(mode=selected)
+            player_name = None
+            if selected == "solo":
+                # Ask for player name, reusing the shared background video if available
+                ask = AskUserName(self.screen, self.clock, background_video=bg, prompt="Enter your name:")
+                player_name = ask.run()
+            GameDisplay().run(mode=selected, player_name=player_name)
 
         return selected

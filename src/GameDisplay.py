@@ -48,7 +48,7 @@ class GameDisplay:
         self.bg = pygame.transform.smoothscale(self.bg, (self.width, self.height))
         return True
 
-    def run(self, mode: str = "solo"):
+    def run(self, mode: str = "solo", player_name: str | None = None):
         """
         Run the main loop: display the background until the user quits or presses ESC.
         """
@@ -69,9 +69,9 @@ class GameDisplay:
         
         # pass background surface to Game so it can blit it each frame
         if mode == "1v1":
-            game = VersusGame(self.screen, self.clock)
+            game = VersusGame(self.screen, self.clock, player_name=player_name)
         else:
-            game = Game(self.screen, self.clock)
+            game = Game(self.screen, self.clock, player_name=player_name)
             
         game.background = self.bg
         result = game.run()

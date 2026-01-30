@@ -7,7 +7,7 @@ import os
 
 
 class Game:
-    def __init__(self, screen, clock):
+    def __init__(self, screen, clock, player_name: str | None = None):
         self.timer = 0
         self.tick = 0 
         self.counter = 0
@@ -15,6 +15,8 @@ class Game:
         self.clock = clock
         # optional background surface (blitted every frame before drawing manager)
         self.background = None
+        # player name for score saving
+        self.player_name = player_name
         self.manager = FruitManager()
         self.NEXT_SPAWN_EVENT = pygame.USEREVENT + 1
         pygame.time.set_timer(self.NEXT_SPAWN_EVENT, 3000)
@@ -69,7 +71,7 @@ class Game:
                     pass # On garde la structure par défaut
 
         # 2. Ajout du score pour l'utilisateur
-        nom_joueur = "Invité"
+        nom_joueur = self.player_name or "Invité"
         liste_users = donnees["solo"]["utilisateurs"]
         
         joueur_trouve = False

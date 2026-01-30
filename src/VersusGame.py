@@ -3,8 +3,8 @@ import random
 from .Game import Game
 
 class VersusGame(Game):
-    def __init__(self, screen, clock):
-        super().__init__(screen, clock)
+    def __init__(self, screen, clock, player_name: str | None = None):
+        super().__init__(screen, clock, player_name=player_name)
         self.start_time = pygame.time.get_ticks()
         self.score_p1 = 0
         self.score_p2 = 0
